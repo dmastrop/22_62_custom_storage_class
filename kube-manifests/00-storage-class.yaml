@@ -1,0 +1,29 @@
+apiVersion: storage.k8s.io/v1
+# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#storageclass-v1-storage-k8s-io
+kind: StorageClass
+metadata: 
+  name: gke-pd-standard-rwo-sc
+  # custom storage class name
+provisioner: pd.csi.storage.gke.io
+# the provisioner is google persistent disk csi
+# this provisioner can be obtained by running the kubectl get storageclass command
+volumeBindingMode: WaitForFirstConsumer 
+# VolumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. When unset, VolumeBindingImmediate is used. 
+# This field is only honored by servers that enable the VolumeScheduling feature.
+# Volume provisioned only when mysql is provisioned and deployed. Until that time it will not be in bound state.
+allowVolumeExpansion: true
+# AllowVolumeExpansion shows whether the storage class allow volume expand
+# by default it is true
+reclaimPolicy: Retain
+# Dynamically provisioned PersistentVolumes of this storage class are created with this reclaimPolicy. Defaults to Delete.
+# by default it is delete so when delete PV the storage class will not be freed
+# retain will retain even after delete the k8s objects from the cluster 
+parameters:
+  type: pd-balanced # Other Options supported are pd-ssd, pd-standard
+  # Parameters holds the parameters for the provisioner that should create volumes of this storage class
+  # ours is set to pd-balanced which is like the standard-rwo
+  
+# STORAGE CLASS 
+# 1. A StorageClass provides a way for administrators 
+# to describe the "classes" of storage they offer.
+# 2. Here we are offering GCP PD Storage for GKE Cluster
