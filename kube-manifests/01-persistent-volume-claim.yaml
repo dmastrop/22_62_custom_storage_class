@@ -16,6 +16,7 @@ spec:
   # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#resourcerequirements-v1-core
     requests:
       storage: 4Gi
+      #storage: 8Gi
 
 # NEED FOR PVC
 # 1. Dynamic volume provisioning allows storage volumes to be created 
